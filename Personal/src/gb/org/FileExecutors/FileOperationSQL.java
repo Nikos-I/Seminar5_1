@@ -9,7 +9,6 @@ import java.util.List;
 
 public class FileOperationSQL implements FileOperation {
 
-    private String fileName;
     private DatabaseManager databaseManager;
     public FileOperationSQL(String fileName) {
         this.databaseManager = new DatabaseManager(fileName);
@@ -29,7 +28,7 @@ public class FileOperationSQL implements FileOperation {
     public void updateLine(String id, String fieldName, String fieldValue){
         String execStr = "UPDATE users SET " + fieldName + "='" + fieldValue + "' WHERE id=" + id;
         this.databaseManager.update(String.format(execStr));
-    };
+    }
     
     public void saveAllLines(List<String> lines) {
         this.databaseManager.update("Delete from users");

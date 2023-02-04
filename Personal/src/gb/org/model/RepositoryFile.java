@@ -12,13 +12,13 @@ public class RepositoryFile implements Repository {
 
     public RepositoryFile(FileOperation fileOperation) {
         this.fileOperation = fileOperation;
-        if(this.fileOperation.getFileType() == FileType.SQLite) {
+        if (this.fileOperation.getFileType() == FileType.SQLite) {
             this.mapper = new UserMapperSQL();
-        }
-        else {
+        } else {
             this.mapper = new UserMapperTXT();
         }
     }
+
     @Override
     public List<User> getAllUsers() {
         List<String> lines = fileOperation.readAllLines();
@@ -28,47 +28,47 @@ public class RepositoryFile implements Repository {
         }
         return users;
     }
+
     @Override
     public void UpdateUser(User user, Fields field, String param) {
         String fieldName = "";
 
-        if(field == Fields.FIO) {
+        if (field == Fields.FIO) {
             user.setLastName(param);
-            fieldName = "FIO";
-        }
-        else if(field == Fields.NAME) {
+            fieldName = "lastName";
+        } else if (field == Fields.NAME) {
             user.setFirstName(param);
-            fieldName = "NAME";
-        }
-        else if(field == Fields.TELEPHONE) {
+            fieldName = "firstName";
+        } else if (field == Fields.TELEPHONE) {
             user.setPhone(param);
-            fieldName = "TELEPHONE";
+            fieldName = "phone";
         }
         List<String> lines = new ArrayList<>();
         List<User> users = getAllUsers();
-        for (User item: users) {
-            if(user.getId().equals(item.getId())) {
+        for (User item : users) {
+            if (user.getId().equals(item.getId())) {
                 lines.add(mapper.map(user));
-            }
-            else {
+            } else {
                 lines.add(mapper.map(item));
             }
         }
         fileOperation.updateLine(user.getId(), fieldName, param);
     }
+
     @Override
     public void DeleteUser(User user) {
         List<String> lines = new ArrayList<>();
         List<User> users = getAllUsers();
-        for (User item: users) {
-            if(!user.getId().equals(item.getId())) {
+        for (User item : users) {
+            if (!user.getId().equals(item.getId())) {
                 lines.add(mapper.map(item));
             }
         }
         System.out.println(lines);
         fileOperation.saveAllLines(lines);
     }
-//    private void saveUser(User user) {
+
+    //    private void saveUser(User user) {
 //        List<String> lines = new ArrayList<>();
 //        List<User> users = getAllUsers();
 //        for (User item: users) {
@@ -90,7 +90,7 @@ public class RepositoryFile implements Repository {
         int max = 0;
         for (User item : users) {
             int id = Integer.parseInt(item.getId());
-            if (max < id){
+            if (max < id) {
                 max = id;
             }
         }
@@ -99,7 +99,7 @@ public class RepositoryFile implements Repository {
         user.setId(id);
         users.add(user);
         List<String> lines = new ArrayList<>();
-        for (User item: users) {
+        for (User item : users) {
             lines.add(mapper.map(item));
         }
         fileOperation.saveAllLines(lines);
