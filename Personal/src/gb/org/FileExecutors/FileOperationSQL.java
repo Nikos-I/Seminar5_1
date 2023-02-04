@@ -27,7 +27,7 @@ public class FileOperationSQL implements FileOperation {
     }
 
     public void updateLine(String id, String fieldName, String fieldValue){
-        String execStr = "UPDATE users SET " + fieldName + "=" + fieldValue + "WHERE id=" + id;
+        String execStr = "UPDATE users SET " + fieldName + "='" + fieldValue + "' WHERE id=" + id;
         this.databaseManager.update(String.format(execStr));
     };
     

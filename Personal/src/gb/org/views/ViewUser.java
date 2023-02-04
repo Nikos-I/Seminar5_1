@@ -48,7 +48,7 @@ public class ViewUser {
                 }
             }
             catch(Exception ex) {
-                System.out.println("Произошла ошибка " + ex.toString());
+                System.out.println("Неверный ввод");
             }
         }
     }
@@ -59,7 +59,7 @@ public class ViewUser {
     }
     private void update() throws Exception {
         String userid = prompt("Идентификатор пользователя: ");
-        String field_name = prompt("Какое поле (FIO,NAME,TELEPHONE): ");
+        String field_name = prompt("Какое поле изменить (FIO,NAME,TELEPHONE): ").toUpperCase();
         String param = null;
         if (Fields.valueOf(field_name) == Fields.TELEPHONE) {
             param = catchTelephone(param);
@@ -68,7 +68,7 @@ public class ViewUser {
             }
         }
         else {
-            param = prompt("Введите на то что хотите изменить");
+            param = prompt("Введите новое значение: ");
         }
         User _user = userController.readUser(userid);
         userController.updateUser(_user, Fields.valueOf(field_name.toUpperCase()), param);
