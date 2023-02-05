@@ -18,7 +18,7 @@ public class ViewUser {
         this.validate = validate;
     }
 
-    public void run(){
+    public void run() {
         Commands com = Commands.NONE;
         showHelp();
         while (true) {
@@ -27,83 +27,75 @@ public class ViewUser {
                 com = Commands.valueOf(command.toUpperCase());
                 if (com == Commands.EXIT) return;
                 switch (com) {
-                    case CREATE:
-                        create();
-                        break;
-                    case READ:
-                        read();
-                        break;
-                    case UPDATE:
-                        update();
-                        break;
-                    case LIST:
-                        list();
-                        break;
-                    case HELP:
-                        showHelp();
-                        break;
-                    case DELETE:
-                        delete();
-                        break;
+                    case CREATE -> create();
+                    case READ -> read();
+                    case UPDATE -> update();
+                    case LIST -> list();
+                    case HELP -> showHelp();
+                    case DELETE -> delete();
                 }
-            }
-            catch(Exception ex) {
+            } catch (Exception ex) {
                 System.out.println("Неверный ввод");
             }
         }
     }
+
     private void read() throws Exception {
         String id = prompt("Идентификатор пользователя: ");
         User user_ = userController.readUser(id);
         System.out.println(user_);
     }
+
     private void update() throws Exception {
         String userid = prompt("Идентификатор пользователя: ");
         String field_name = prompt("Какое поле изменить (FIO,NAME,TELEPHONE): ").toUpperCase();
         String param = null;
         if (Fields.valueOf(field_name) == Fields.TELEPHONE) {
             param = catchTelephone(param);
-            if(param == null) {
+            if (param == null) {
                 return;
             }
-        }
-        else {
+        } else {
             param = prompt("Введите новое значение: ");
         }
         User _user = userController.readUser(userid);
         userController.updateUser(_user, Fields.valueOf(field_name.toUpperCase()), param);
     }
+
     private void delete() throws Exception {
         String userid = prompt("Идентификатор пользователя: ");
         User _user = userController.readUser(userid);
         userController.deleteUser(_user);
     }
+
     public String catchTelephone(String telephone) throws Exception {
-        while(true) {
+        while (true) {
             try {
                 telephone = prompt("Введите номер телефона (Отказ введите 0): ");
-                if(telephone.equals("0")) {
+                if (telephone.equals("0")) {
                     System.out.println("Вы отказались от ввода для изменения пользователя");
                     return null;
                 }
                 validate.checkNumber(telephone);
                 return telephone;
-            } catch(PhoneException ex) {
-                System.out.println("Произошла ошибка " + ex.toString());
+            } catch (PhoneException ex) {
+                System.out.println("Ошибка ввода номера");
             }
         }
     }
+
     private void list() throws Exception {
         for (User user : userController.getUsers()) {
             System.out.println(user);
         }
     }
+
     private void create() throws Exception {
         String firstName = prompt("Имя: ");
         String lastName = prompt("Фамилия: ");
         String phone = null;
         phone = catchTelephone(phone);
-        if(phone == null) {
+        if (phone == null) {
             return;
         }
 
@@ -112,10 +104,11 @@ public class ViewUser {
 
     private void showHelp() {
         System.out.println("Список команд:");
-        for(Commands c : Commands.values()) {
+        for (Commands c : Commands.values()) {
             System.out.println(c);
         }
     }
+
     private String prompt(String message) {
         Scanner in = new Scanner(System.in);
         System.out.print(message);
