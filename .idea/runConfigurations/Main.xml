@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="gb.org.Main" />
-    <module name="Personal" />
+    <module name="Calc" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Personal" />
     <extension name="coverage">
       <pattern>
