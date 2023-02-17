@@ -15,5 +15,6 @@ public class Main {
         UserController controller = new UserController(repository,validate);
         ViewUser view = new ViewUser(controller, validate);
         view.run();
+
     }
 }
